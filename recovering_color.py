@@ -42,6 +42,7 @@ if __name__ == '__main__':
 
 	#converte a imagem para BGR
 	YCrCb = cv2.merge((Y, Cr, Cb))
+	#ImgCorRec = np.uint8(i.Convert_YCC2BGR(YCrCb))
 	ImgCorRec = cv2.cvtColor(YCrCb, cv2.COLOR_YCrCb2BGR)
 
 	cv2.imshow('Y', Y)
@@ -50,7 +51,7 @@ if __name__ == '__main__':
 	cv2.imshow('result', ImgCorRec)
 	cv2.imshow('original', lena)
 	
-	plot.subplot(121), plot.imshow(ImgText, cmap='gray')
+#	plot.subplot(121), plot.imshow(ImgText, cmap='gray')
 #	plot.subplot(122), plot.imshow(Cr, cmap='gray')
 	
 	plot.show()
