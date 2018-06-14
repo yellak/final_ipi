@@ -9,16 +9,16 @@ import matplotlib.pyplot as plot
 def Convert_BGR2YCC(Img):
 
     Y = Img[:, :, 0] * 0.114 + Img[:, :, 1] * 0.587 + Img[:, :, 2] * 0.299
-    Cr = 0.713 * Img[:, :, 2] - 0.713 * Y[:, :] + 128
-    Cb = 0.564 * Img[:, :, 0] - 0.564 * Y[:, :] + 128
+    Cr = 0.713 * Img[:, :, 2] - 0.713 * Y[:, :]
+    Cb = 0.564 * Img[:, :, 0] - 0.564 * Y[:, :]
 
     return cv2.merge([Y, Cr, Cb])
 
 
 def Convert_YCC2BGR(img):
-    R = img[:, :, 0] + 1.403 * img[:, :, 1] - 1.403 * 128
-    G = img[:, :, 0] - 0.714 * img[:, :, 1] + 0.714 * 128 - 0.344 * img[:, :, 2] + 0.344 * 128
-    B = img[:, :, 0] + 1.773 * img[:, :, 2] - 1.773 * 128
+    R = img[:, :, 0] + 1.403 * img[:, :, 1]
+    G = img[:, :, 0] - 0.714 * img[:, :, 1] - 0.344 * img[:, :, 2]
+    B = img[:, :, 0] + 1.773 * img[:, :, 2]
 
     return cv2.merge([B, G, R])
 
@@ -27,8 +27,8 @@ def Convert_YCC2BGR(img):
 def plus_minus(img):
     height, width = img.shape
 
-    plus = np.zeros((height, width), np.uint8)
-    minus = np.zeros((height, width), np.uint8)
+    plus = np.zeros((height, width), np.float32)
+    minus = np.zeros((height, width), np.float32)
 
     for y in range(0, height):
         for x in range(0, width):
@@ -42,8 +42,8 @@ def plus_minus(img):
 
 def incorporar_cor(img):
     # Convertendo a imagem
-    ycc = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
-    #ycc = Convert_BGR2YCC(img)
+    #ycc = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
+    ycc = Convert_BGR2YCC(img)
 
     # Fazendo a transformada de Wavelet da imagem em escalas de cinza
     [cA2, (cH2, cV2, cD2), (cH1, cV1, cD1)] = pywt.wavedec2(ycc[:, :, 0], 'db1', level=2)
@@ -76,7 +76,6 @@ def incorporar_cor(img):
 
     Coef = cA2, (cH2, cV2, cD2), (cH1, cV1, cD1)
     img_back = pywt.waverec2(Coef, 'db1')
-
     cv2.imwrite('Imagens/Imagem Texturizada.png', img_back)
 
     return img_back
