@@ -42,5 +42,10 @@ def incorporar_cor(img):
 
     CbMinus2 = resize(CbMinus, (int(CbMinus.shape[0]/2), int(CbMinus.shape[1]/2)), interpolation=cv2.INTER_AREA)
 
+    # Substituindo as imagens obtidas na Wavelet
     cH1 = CrPlus
     cV1 = CbPlus
+    cD1 = CrMinus
+    cD2 = CbMinus2
+
+    img_back = pywt.waverec2([cA2, (cH2, cV2, cD2), (cH1, cV1, cD1)], 'db1')
