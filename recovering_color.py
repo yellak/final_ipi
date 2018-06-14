@@ -8,8 +8,11 @@ import incorporacao as i
 
 if __name__ == '__main__':
 
-	lena = cv2.imread("lena.jpg")
-	ImgText = i.incorporar_cor(lena)
+	img = cv2.imread("Imagens/lena.png")
+	ImgText = i.incorporar_cor(img)
+	#i.incorporar_cor(img)
+	#ImgText = cv2.imread('Imagens/Imagem Texturizada.png')
+
 
 	#faz a transformada wavelet discreta 2d
 	cv2.imshow('texturizada', ImgText)
@@ -17,9 +20,7 @@ if __name__ == '__main__':
 	CA2, (CH2, CV2, CD2), (CH1, CV1, CD1) = Coef
 
 	#redimensiona CD2
-	
 	RedCD2 = cv2.resize(CD2, dsize=(CV1.shape[1], CV1.shape[0]), interpolation=cv2.INTER_AREA)
-	
 	#RedCD2 = cv2.resize(CD2, dsize=(2 * CD2.shape[1], 2 * CD2.shape[0]), interpolation=cv2.INTER_AREA)
 
 	#recupear o Cb e o Cr
@@ -45,11 +46,15 @@ if __name__ == '__main__':
 	#ImgCorRec = np.uint8(i.Convert_YCC2BGR(YCrCb))
 	ImgCorRec = cv2.cvtColor(YCrCb, cv2.COLOR_YCrCb2BGR)
 
-	cv2.imshow('Y', Y)
-	#cv2.imshow('Cb', Cb)
-	#cv2.imshow('Cr', Cr)
+	cv2.imwrite('Imagens/Y.png', Y)
+	cv2.imwrite('Imagens/Cr.png', Cr)
+	cv2.imwrite('Imagens/Cb.png', Cb)
+	cv2.imwrite('Imagens/Imagem Recuperada.png', ImgCorRec)
 	cv2.imshow('result', ImgCorRec)
-	cv2.imshow('original', lena)
+	cv2.imshow('Y', Y)
+	cv2.imshow('Cb', Cb)
+	cv2.imshow('Cr', Cr)
+	cv2.imshow('original', img)
 
 #	plot.subplot(121), plot.imshow(ImgText, cmap='gray')
 #	plot.subplot(122), plot.imshow(Cr, cmap='gray')

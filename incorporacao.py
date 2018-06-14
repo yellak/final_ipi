@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 import pywt
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plot
 
 
 #Converte uma imagem no modelo de cores BGR para YCrCb
@@ -14,11 +14,12 @@ def Convert_BGR2YCC(Img):
 
     return cv2.merge([Y, Cr, Cb])
 
+
 def Convert_YCC2BGR(img):
-    R = img[:,:,0] + 1.403*img[:,:,1] - 1.403*128
-    G = img[:,:,0] -0.714*img[:,:,1] +0.714*128 -0.344*img[:,:,2] +0.344*128
-    B = img[:,:,0] + 1.773*img[:,:,2] -1.773*128
-    
+    R = img[:, :, 0] + 1.403 * img[:, :, 1] - 1.403 * 128
+    G = img[:, :, 0] - 0.714 * img[:, :, 1] + 0.714 * 128 - 0.344 * img[:, :, 2] + 0.344 * 128
+    B = img[:, :, 0] + 1.773 * img[:, :, 2] - 1.773 * 128
+
     return cv2.merge([B, G, R])
 
 
@@ -42,7 +43,7 @@ def plus_minus(img):
 def incorporar_cor(img):
     # Convertendo a imagem
     ycc = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
-    # ycc = Convert_BGR2YCC(img)
+    #ycc = Convert_BGR2YCC(img)
 
     # Fazendo a transformada de Wavelet da imagem em escalas de cinza
     [cA2, (cH2, cV2, cD2), (cH1, cV1, cD1)] = pywt.wavedec2(ycc[:, :, 0], 'db1', level=2)
@@ -71,8 +72,11 @@ def incorporar_cor(img):
     cV1 = CbPlus
     cD1 = CrMinus
     cD2 = CbMinus2
+#    plot.show()
 
     Coef = cA2, (cH2, cV2, cD2), (cH1, cV1, cD1)
     img_back = pywt.waverec2(Coef, 'db1')
+
+    cv2.imwrite('Imagens/Imagem Texturizada.png', img_back)
 
     return img_back
