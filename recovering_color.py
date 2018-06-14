@@ -8,7 +8,7 @@ import incorporacao as i
 
 if __name__ == '__main__':
 
-	lena = cv2.imread("lena.png")
+	lena = cv2.imread("lena.jpg")
 	ImgText = i.incorporar_cor(lena)
 
 	#faz a transformada wavelet discreta 2d
@@ -50,10 +50,10 @@ if __name__ == '__main__':
 	#cv2.imshow('Cr', Cr)
 	cv2.imshow('result', ImgCorRec)
 	cv2.imshow('original', lena)
-	
+
 #	plot.subplot(121), plot.imshow(ImgText, cmap='gray')
 #	plot.subplot(122), plot.imshow(Cr, cmap='gray')
-	
+
 	plot.show()
 
 	cv2.waitKey(0)

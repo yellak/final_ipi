@@ -42,7 +42,7 @@ def plus_minus(img):
 def incorporar_cor(img):
     # Convertendo a imagem
     ycc = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
-   # ycc = Convert_BGR2YCC(img)
+    # ycc = Convert_BGR2YCC(img)
 
     # Fazendo a transformada de Wavelet da imagem em escalas de cinza
     [cA2, (cH2, cV2, cD2), (cH1, cV1, cD1)] = pywt.wavedec2(ycc[:, :, 0], 'db1', level=2)
@@ -61,8 +61,6 @@ def incorporar_cor(img):
     # Adquirindo Cb/Cr-mais e Cb/Cr-menos
     CbPlus, CbMinus = plus_minus(Cb)
     CrPlus, CrMinus = plus_minus(Cr)
-    print(CbPlus)
-    print(CbMinus)
 
     CbMinus2 = cv2.resize(CbMinus, (cD2.shape[1], cD2.shape[0]), interpolation=cv2.INTER_AREA)
 
@@ -73,7 +71,6 @@ def incorporar_cor(img):
     cV1 = CbPlus
     cD1 = CrMinus
     cD2 = CbMinus2
-    
 
     Coef = cA2, (cH2, cV2, cD2), (cH1, cV1, cD1)
     img_back = pywt.waverec2(Coef, 'db1')
