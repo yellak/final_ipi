@@ -4,6 +4,17 @@ import pywt
 import matplotlib.pyplot as plt
 
 
+#Converte uma imagem no modelo de cores BGR para YCrCb
+
+def Convert_BGR2YCC(Img):
+
+    Y = Img[:, :, 0] * 0.114 + Img[:, :, 1] * 0.587 + Img[:, :, 2] * 0.299
+    Cr = 0.713 * Img[:, :, 2] - 0.713 * Y[:, :] + 128
+    Cb = 0.564 * Img[:, :, 0] - 0.564 * Y[:, :] + 128
+
+    return cv2.merge([Y, Cr, Cb])
+
+
 # Função que calcula Cb/Cr-menos e mais
 def plus_minus(img):
     height, width = img.shape
@@ -23,7 +34,8 @@ def plus_minus(img):
 
 def incorporar_cor(img):
     # Convertendo a imagem
-    ycc = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
+    #  ycc = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
+    ycc = Convert_BGR2YCC(img)
 
     # Fazendo a transformada de Wavelet da imagem em escalas de cinza
     [cA2, (cH2, cV2, cD2), (cH1, cV1, cD1)] = pywt.wavedec2(ycc[:, :, 0], 'db1', level=2)
@@ -33,19 +45,28 @@ def incorporar_cor(img):
     CB0 = ycc[:, :, 2]
 
     # Ajustando as imagens
-    Cr = cv2.resize(CR0, (int(CR0.shape[0]/2), int(CR0.shape[1]/2)), interpolation=cv2.INTER_AREA)
-    Cb = cv2.resize(CB0, (int(CB0.shape[0]/2), int(CB0.shape[1]/2)), interpolation=cv2.INTER_AREA)
+    Cr = cv2.resize(CR0, (cD1.shape[1], cD1.shape[0]), interpolation=cv2.INTER_AREA)
+    Cb = cv2.resize(CB0, (cV1.shape[1], cV1.shape[0]), interpolation=cv2.INTER_AREA)
+
+    #Cr = cv2.resize(CR0, (int(CR0.shape[1] / 2), int(CR0.shape[0] / 2)), interpolation=cv2.INTER_AREA)
+    #Cb = cv2.resize(CB0, (int(CB0.shape[1] / 2), int(CB0.shape[0] / 2)), interpolation=cv2.INTER_AREA)
 
     # Adquirindo Cb/Cr-mais e Cb/Cr-menos
     CbPlus, CbMinus = plus_minus(Cb)
     CrPlus, CrMinus = plus_minus(Cr)
 
-    CbMinus2 = resize(CbMinus, (int(CbMinus.shape[0]/2), int(CbMinus.shape[1]/2)), interpolation=cv2.INTER_AREA)
+    CbMinus2 = cv2.resize(CbMinus, (cD2.shape[1], cD2.shape[0]), interpolation=cv2.INTER_AREA)
+
+    #CbMinus2 = cv2.resize(CbMinus, (int(CbMinus.shape[1] / 2), int(CbMinus.shape[0] / 2)), interpolation=cv2.INTER_AREA)
 
     # Substituindo as imagens obtidas na Wavelet
     cH1 = CrPlus
     cV1 = CbPlus
     cD1 = CrMinus
     cD2 = CbMinus2
+    
 
-    img_back = pywt.waverec2([cA2, (cH2, cV2, cD2), (cH1, cV1, cD1)], 'db1')
+    Coef = cA2, (cH2, cV2, cD2), (cH1, cV1, cD1)
+    img_back = pywt.waverec2(Coef, 'db1')
+
+    return img_back
