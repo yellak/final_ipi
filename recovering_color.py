@@ -1,12 +1,12 @@
 import cv2
 import numpy as np
 import pywt
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import incorporacao as inc
 
 
 # Função que faz todo o procedimento inverso
-def color_recover(name):
+def color_recover(name, printar):
         ImgText = cv2.imread('Texturizadas/%s' % name, 0)
         # ImgText = np.float32(ImgText)
 
@@ -45,3 +45,12 @@ def color_recover(name):
         cv2.imwrite('Crominâncias/Cr%s' % name, Cr)
         cv2.imwrite('Crominâncias/Cb%s' % name, Cb)
         cv2.imwrite('Resultados/%s' % name, ImgCorRec)
+
+        if printar == 1:
+                ImgCorRec = cv2.imread('Resultados/%s' % name)
+                ImgCorRec = cv2.cvtColor(ImgCorRec, cv2.COLOR_BGR2RGB)
+                plt.imshow(ImgCorRec)
+                plt.title("Imagem Resultante")
+                plt.axis('off')
+
+                plt.show()
