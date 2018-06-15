@@ -28,13 +28,9 @@ def plus_minus(img):
 
     plus = np.zeros((height, width), np.float32)
     minus = np.zeros((height, width), np.float32)
-
-    for y in range(0, height):
-        for x in range(0, width):
-            if img[y, x] > 0:
-                plus[y, x] = img[y, x]
-            else:
-                minus[y, x] = img[y, x]
+    #separa a matriz em suas partes negativa e positiva
+    minus = (img - np.abs(img)) / 2
+    plus = (img + np.abs(img)) / 2
 
     return plus, minus
 
@@ -83,7 +79,7 @@ def incorporar_cor(name, printar):
         plt.axis('off')
 
         plt.subplot(122)
-        plt.imshow(img_back, cmap = 'gray')
+        plt.imshow(img_back, cmap='gray')
         plt.title("Imagem Texturizada")
         plt.axis('off')
 

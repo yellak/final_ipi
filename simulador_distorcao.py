@@ -1,27 +1,25 @@
 import cv2
 import numpy as np
 
-def error_diffusion(pixel, size=(1, 1)):
-	"""Diffuse on a single channel, using Floyd-Steinberg kerenl.
-	@param pixel PIL PixelAccess object.
-	@param size A tuple to represent the size of pixel.
-	
-	"""
 
-	pixel = np.float32(pixel)
+#Difusão de erros usando o método de Floyd-Steinberg.
+def error_diffusion(img, size=(1, 1)):
+	img = np.float32(img)
+
 	for y in range(0, size[1] - 1):
 		for x in range(1, size[0] - 1):
-			oldpixel = pixel[x, y]
-			pixel[x, y] = 255 if oldpixel > 127 else 0
-			quant_error = oldpixel - pixel[x, y]
-			pixel[x + 1, y] = pixel[x + 1, y] + 7 / 16.0 * quant_error
-			pixel[x - 1, y + 1] = pixel[x - 1, y + 1] + 3 / 16.0 * quant_error
-			pixel[x, y + 1] = pixel[x, y + 1] + 5 / 16.0 * quant_error
-			pixel[x + 1, y + 1] = pixel[x + 1, y + 1] + 1 / 16.0 * quant_error
-	return pixel
+			old_pixel = img[x, y]
+			img[x, y] = 255 if old_pixel > 127 else 0
+			quant_error = old_pixel - img[x, y]
+			img[x + 1, y] = img[x + 1, y] + 7 / 16.0 * quant_error
+			img[x - 1, y + 1] = img[x - 1, y + 1] + 3 / 16.0 * quant_error
+			img[x, y + 1] = img[x, y + 1] + 5 / 16.0 * quant_error
+			img[x + 1, y + 1] = img[x + 1, y + 1] + 1 / 16.0 * quant_error
+	return img
 
-def simulacao(img):
-	K = 1
+
+def simulacao(img, K=1):
+
 	#redimensiona a imagem
 	img = cv2.resize(img, (K * img.shape[1], K * img.shape[0]), interpolation=cv2.INTER_AREA)
 	

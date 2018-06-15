@@ -22,7 +22,7 @@ if __name__ == "__main__":
                 img_name = input()
 
                 inc.incorporar_cor(img_name, printar)
-                # img = cv2.imread('Texturizadas/%s' % img_name, 0)
-                # img = sdist.simulacao(img)
-                # cv2.imwrite('Texturizadas/teste.png', img)
+              	# img = cv2.imread('Texturizadas/%s' % img_name, 0)
+                #img = sdist.simulacao(img)
+                #cv2.imwrite('Texturizadas/%s' % img_name, img)
                 rec.color_recover(img_name, printar)
