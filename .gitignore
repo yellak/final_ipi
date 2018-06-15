@@ -106,3 +106,6 @@ venv.bak/
 *~
 *#
 *.pdf
+
+# Ignorando imagens de meio termo
+Crominâncias/*.png
