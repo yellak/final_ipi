@@ -8,6 +8,10 @@ import color_incorporation as inc
 # Função que faz todo o procedimento inverso
 def color_recover(name, printar):
         ImgText = cv2.imread('Texturizadas/%s' % name, 0)
+        if ImgText is None:
+                print("Imagem %s não encontrada na pasta Texturizadas" % name)
+                return -1
+
         # ImgText = np.float32(ImgText)
 
         # Fazendo a transformada Wavelet discreta 2D
@@ -54,3 +58,5 @@ def color_recover(name, printar):
                 plt.axis('off')
 
                 plt.show()
+
+        return 1

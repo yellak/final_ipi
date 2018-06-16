@@ -38,6 +38,9 @@ def plus_minus(img):
 # Função que irá criar a imagem texturizada
 def color_incorporation(name, printar):
     img = cv2.imread('Imagens/%s' % name)
+    if img is None:
+        print("Imagem %s não encontrada na pasta Imagens" % name)
+        return -1
 
     # Convertendo a imagem
     ycc = Convert_BGR2YCC(img)
@@ -84,3 +87,5 @@ def color_incorporation(name, printar):
         plt.axis('off')
 
         plt.show()
+
+    return 1
