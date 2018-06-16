@@ -13,7 +13,7 @@ if __name__ == "__main__":
                 printar = 1
 
         if '--all' in sys.argv:
-                print("Processando para todas as imagens da pasta")
+                print("Processando para todas as imagens da pasta ", end = "")
                 print("Imagens...")
                 print("Isso pode demorar um pouco")
                 for fl in glob.glob("Imagens/*.png"):
