@@ -5,10 +5,10 @@ import matplotlib.pyplot as plt
 
 
 # Converte uma imagem no modelo de cores BGR para YCrCb
-def Convert_BGR2YCC(Img):
-    Y = Img[:, :, 0] * 0.114 + Img[:, :, 1] * 0.587 + Img[:, :, 2] * 0.299
-    Cr = 0.713 * Img[:, :, 2] - 0.713 * Y[:, :]
-    Cb = 0.564 * Img[:, :, 0] - 0.564 * Y[:, :]
+def Convert_BGR2YCC(img):
+    Y = img[:, :, 0] * 0.114 + img[:, :, 1] * 0.587 + img[:, :, 2] * 0.299
+    Cr = 0.713 * img[:, :, 2] - 0.713 * Y[:, :]
+    Cb = 0.564 * img[:, :, 0] - 0.564 * Y[:, :]
 
     return cv2.merge([Y, Cr, Cb])
 
@@ -36,7 +36,7 @@ def plus_minus(img):
 
 
 # Função que irá criar a imagem texturizada
-def incorporar_cor(name, printar):
+def color_incorporation(name, printar):
     img = cv2.imread('Imagens/%s' % name)
 
     # Convertendo a imagem

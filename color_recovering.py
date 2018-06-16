@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import pywt
 import matplotlib.pyplot as plt
-import incorporacao as inc
+import color_incorporation as inc
 
 
 # Função que faz todo o procedimento inverso
