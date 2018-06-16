@@ -18,7 +18,8 @@ def error_diffusion(img, size=(1, 1)):
         return img
 
 
-# Função que simula a distorção gerada pelo processo de impressão seguida de digitalização
+# Função que simula a distorção gerada pelo processo
+# de impressão seguida de digitalização
 def print_scan(img_name, K=1):
 
         img = cv2.imread('Texturizadas/%s' % img_name, 0)
