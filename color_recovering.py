@@ -1,24 +1,15 @@
 import cv2
 import numpy as np
 import pywt
-import matplotlib.pyplot as plt
 import color_incorporation as inc
 
-PLOT_GRAPHICS = 1
-NOT_PLOT_PSNR = 2
-
-
 # Função que faz todo o procedimento inverso
-def color_recover(name, printar):
-        ImgText = cv2.imread('Texturizadas/%s' % name, 0)
-        if ImgText is None:
-                print("Imagem %s não encontrada na pasta Texturizadas" % name)
-                return -1
+def color_recover(img_text):
 
-        # ImgText = np.float32(ImgText)
+        # img_text = np.float32(img_text)
 
         # Fazendo a transformada Wavelet discreta 2D
-        Coef = pywt.wavedec2(ImgText, 'db1', level=2)
+        Coef = pywt.wavedec2(img_text, 'db1', level=2)
         CA2, (CH2, CV2, CD2), (CH1, CV1, CD1) = Coef
 
         # redimensiona CD2
@@ -46,32 +37,5 @@ def color_recover(name, printar):
         YCrCb[:, :, 0] = Y
         YCrCb[:, :, 1] = Cr
         YCrCb[:, :, 2] = Cb
-        ImgCorRec = inc.Convert_YCC2BGR(YCrCb)
 
-        cv2.imwrite('Crominâncias/Y%s' % name, Y)
-        cv2.imwrite('Crominâncias/Cr%s' % name, Cr)
-        cv2.imwrite('Crominâncias/Cb%s' % name, Cb)
-        cv2.imwrite('Resultados/%s' % name, ImgCorRec)
-
-        if printar == PLOT_GRAPHICS:
-                ImgCorRec = cv2.imread('Resultados/%s' % name)
-                ImgCorRec = cv2.cvtColor(ImgCorRec, cv2.COLOR_BGR2RGB)
-                plt.imshow(ImgCorRec)
-                plt.title("Imagem Resultante")
-                plt.axis('off')
-
-                plt.show()
-
-        img_origin = cv2.imread('Imagens/%s' % name)
-        img_result = cv2.imread('Resultados/%s' % name)
-
-        if printar != NOT_PLOT_PSNR:
-                psnr = 0
-                for i in range(0, 3):
-                        psnr += cv2.PSNR(img_origin[:, :, i], img_result[:, :, i])
-                psnr /= 3
-
-                print("O valor Peak-SNR obtido foi:")
-                print("%.3f" % psnr)
-
-        return 1
+        return YCrCb

@@ -1,7 +1,6 @@
 import numpy as np
 import cv2
 import pywt
-import matplotlib.pyplot as plt
 
 
 # Converte uma imagem no modelo de cores BGR para YCrCb
@@ -36,11 +35,7 @@ def plus_minus(img):
 
 
 # Função que irá criar a imagem texturizada
-def color_incorporation(name, printar):
-    img = cv2.imread('Imagens/%s' % name)
-    if img is None:
-        print("Imagem %s não encontrada na pasta Imagens" % name)
-        return -1
+def color_incorporation(img):
 
     # Convertendo a imagem
     ycc = Convert_BGR2YCC(img)
@@ -71,21 +66,4 @@ def color_incorporation(name, printar):
     Coef = cA2, (cH2, cV2, cD2), (cH1, cV1, cD1)
     img_back = pywt.waverec2(Coef, 'db1')
 
-    # Salvando a imagem resultante
-    cv2.imwrite("Texturizadas/%s" % name, img_back)
-
-    if printar == 1:
-
-        plt.subplot(121)
-        plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-        plt.title("Imagem original")
-        plt.axis('off')
-
-        plt.subplot(122)
-        plt.imshow(img_back, cmap='gray')
-        plt.title("Imagem Texturizada")
-        plt.axis('off')
-
-        plt.show()
-
-    return 1
+    return img_back

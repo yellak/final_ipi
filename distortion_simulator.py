@@ -20,12 +20,7 @@ def error_diffusion(img, size=(1, 1)):
 
 # Função que simula a distorção gerada pelo processo
 # de impressão seguida de digitalização
-def print_scan(img_name, K=1):
-
-        img = cv2.imread('Texturizadas/%s' % img_name, 0)
-        if img is None:
-                print("Imgagem %s não encontrada na pasta Texturizadas" % img_name)
-                return -1
+def print_scan(img, K=1):
 
         # redimensiona a imagem
         img = cv2.resize(img, (K * img.shape[1], K * img.shape[0]), interpolation=cv2.INTER_AREA)
@@ -39,6 +34,5 @@ def print_scan(img_name, K=1):
         # volta a imagem para o tamanho original
         img = cv2.resize(img, (int(img.shape[1] / K), int(img.shape[0] / K)), interpolation=cv2.INTER_AREA)
 
-        cv2.imwrite('Texturizadas/%s' % img_name, img)
 
-        return 1
+        return img
