@@ -4,6 +4,9 @@ import pywt
 import matplotlib.pyplot as plt
 import color_incorporation as inc
 
+PLOT_GRAPHICS = 1
+NOT_PLOT_PSNR = 2
+
 
 # Função que faz todo o procedimento inverso
 def color_recover(name, printar):
@@ -50,7 +53,7 @@ def color_recover(name, printar):
         cv2.imwrite('Crominâncias/Cb%s' % name, Cb)
         cv2.imwrite('Resultados/%s' % name, ImgCorRec)
 
-        if printar == 1:
+        if printar == PLOT_GRAPHICS:
                 ImgCorRec = cv2.imread('Resultados/%s' % name)
                 ImgCorRec = cv2.cvtColor(ImgCorRec, cv2.COLOR_BGR2RGB)
                 plt.imshow(ImgCorRec)
@@ -58,5 +61,17 @@ def color_recover(name, printar):
                 plt.axis('off')
 
                 plt.show()
+
+        img_origin = cv2.imread('Imagens/%s' % name)
+        img_result = cv2.imread('Resultados/%s' % name)
+
+        if printar != NOT_PLOT_PSNR:
+                psnr = 0
+                for i in range(0, 3):
+                        psnr += cv2.PSNR(img_origin[:, :, i], img_result[:, :, i])
+                psnr /= 3
+
+                print("O valor Peak-SNR obtido foi:")
+                print("%.3f" % psnr)
 
         return 1

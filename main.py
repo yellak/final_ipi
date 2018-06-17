@@ -16,6 +16,7 @@ if __name__ == "__main__":
                 print("Processando para todas as imagens da pasta ", end = "")
                 print("Imagens...")
                 print("Isso pode demorar um pouco")
+                printar = rec.NOT_PLOT_PSNR
                 for fl in glob.glob("Imagens/*.png"):
                         inc.color_incorporation(fl[8:], printar)
                         rec.color_recover(fl[8:], printar)
@@ -36,6 +37,7 @@ if __name__ == "__main__":
                 if test != -1:
                         if(simulation == 1):
                                 k = int(input("Qual a ordem do resize?\n"))
+                                print("Simulando distorção por impressão...")
                                 sdist.print_scan(img_name, k)
 
                         rec.color_recover(img_name, printar)
