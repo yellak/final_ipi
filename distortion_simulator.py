@@ -15,7 +15,10 @@ def error_diffusion(img, size=(1, 1)):
                         img[x - 1, y + 1] = img[x - 1, y + 1] + 3 / 16.0 * quant_error
                         img[x, y + 1] = img[x, y + 1] + 5 / 16.0 * quant_error
                         img[x + 1, y + 1] = img[x + 1, y + 1] + 1 / 16.0 * quant_error
-        return img
+        #binariza a imagem
+        ret, img = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
+
+        return np.uint8(img)
 
 
 # Função que simula a distorção gerada pelo processo
