@@ -11,9 +11,11 @@ NOT_PLOT_PSNR = 2
 
 def print_PNR(img_origin, img_result):
     psnr = 0
-    for i in range(0, 3):
-        psnr += cv2.PSNR(img_origin[:, :, i], img_result[:, :, i])
-    psnr /= 3
+    img_origin = cv2.cvtColor(img_origin, cv2.COLOR_BGR2YCrCb)
+    img_result = cv2.cvtColor(img_result, cv2.COLOR_BGR2YCrCb)
+    
+    psnr += cv2.PSNR(img_origin[:, :, 0], img_result[:, :, 0])
+   
     print("O valor Peak-SNR obtido foi:")
     print("%.3f" % psnr)
 
