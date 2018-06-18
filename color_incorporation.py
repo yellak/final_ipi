@@ -78,6 +78,6 @@ def color_incorporation(img):
 
     #redimensionar para o tamanho correto depois da transformada inversa
     #garante que a imagem texturizada tenha o mesmo tamanho da original
-    img_back = cv2.resize(img_back, (img.shape[1], img.shape[0]), interpolation=cv2.INTER_AREA)
+    #img_back = cv2.resize(img_back, (img.shape[1], img.shape[0]), interpolation=cv2.INTER_AREA)
 
     return img_back

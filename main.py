@@ -71,7 +71,7 @@ if __name__ == "__main__":
                         plt.axis('off')
                         plt.show()
 
-                    img_rec = rec.color_recover(img_text)
+                    img_rec = rec.color_recover(img_text, img.shape)
 
                     cv2.imwrite('Crominâncias/Y%s' % fl[8:], img_rec[:, :, 0])
                     cv2.imwrite('Crominâncias/Cr%s' % fl[8:], img_rec[:, :, 1])
@@ -135,20 +135,20 @@ if __name__ == "__main__":
                     k = int(input("Qual a ordem do resize?\n"))
                     print("Simulando distorção por impressão...")
 
-                    img = cv2.imread('Texturizadas/%s' % img_name, 0)
-                    if img is None:
+                    img_text = cv2.imread('Texturizadas/%s' % img_name, 0)
+                    if img_text is None:
                         print("Imgagem %s não encontrada na pasta Texturizadas" % img_name)
                         exit(1)
 
-                    img = sdist.print_scan(img, k)
-                    cv2.imwrite('Texturizadas/%s' % img_name, img)
+                    img_text = sdist.print_scan(img_text, k)
+                    cv2.imwrite('Texturizadas/%s' % img_name, img_text)
 
                 img_text = cv2.imread('Texturizadas/%s' % img_name, 0)
                 if img_text is None:
                     print("Imagem %s não encontrada na pasta Texturizadas" % img_name)
                     exit(1)
 
-                img_rec = rec.color_recover(img_text)
+                img_rec = rec.color_recover(img_text, img.shape)
 
                 cv2.imwrite('Crominâncias/Y%s' % img_name, img_rec[:, :, 0])
                 cv2.imwrite('Crominâncias/Cr%s' % img_name, img_rec[:, :, 1])
@@ -176,7 +176,7 @@ if __name__ == "__main__":
                         psnr /= 3
         
                         print("O valor Peak-SNR obtido foi:")
-                        print("%.3f" % psnr)                
+                        print("%.3f" % psnr)               
                 #else:
                 #        print("\nPor favor, verifique se digitou o nome da")
                 #        print("imagem corretamente e se ela está na pasta Imagens")
