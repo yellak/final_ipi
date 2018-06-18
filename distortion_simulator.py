@@ -26,16 +26,16 @@ def error_diffusion(img, size=(1, 1)):
 def print_scan(img, K=1):
 
         # redimensiona a imagem
-        img = cv2.resize(img, (K * img.shape[1], K * img.shape[0]), interpolation=cv2.INTER_AREA)
+        resized_img = cv2.resize(img, (K * img.shape[1], K * img.shape[0]), interpolation=cv2.INTER_AREA)
 
         # aplica um error diffusion
-        img = error_diffusion(img, img.shape)
+        resized_img = error_diffusion(resized_img, resized_img.shape)
         # aplica um filtro de média
-        kernel = np.ones((5, 5), np.float32) / 25
-        img = cv2.filter2D(img, -1, kernel)
-        img = np.uint8(img)
+        kernel = np.ones((3, 3), np.float32) / 9
+        resized_img = cv2.filter2D(resized_img, -1, kernel)
+        resized_img = np.uint8(resized_img)
         # volta a imagem para o tamanho original
-        img = cv2.resize(img, (int(img.shape[1] / K), int(img.shape[0] / K)), interpolation=cv2.INTER_AREA)
+        img = cv2.resize(resized_img, (img.shape[1], img.shape[0]), interpolation=cv2.INTER_AREA)
 
 
         return img

@@ -20,8 +20,8 @@ def color_recover(img_text):
         Cr = np.abs(CH1) - np.abs(CD1)
 
         # redimensiona o Cb e o Cr
-        Cb = cv2.resize(Cb, dsize=(2 * Cb.shape[1], 2 * Cb.shape[0]), interpolation=cv2.INTER_AREA)
-        Cr = cv2.resize(Cr, dsize=(2 * Cr.shape[1], 2 * Cr.shape[0]), interpolation=cv2.INTER_AREA)
+        Cb = cv2.resize(Cb, dsize=(img_text.shape[1], img_text.shape[0]), interpolation=cv2.INTER_AREA)
+        Cr = cv2.resize(Cr, dsize=(img_text.shape[1], img_text.shape[0]), interpolation=cv2.INTER_AREA)
 
         CH1 = np.zeros((CH1.shape[0], CH1.shape[1]))
         CV1 = np.zeros((CV1.shape[0], CV1.shape[1]))
@@ -32,7 +32,10 @@ def color_recover(img_text):
         # recupera o Y a partir da transformada wavelet inversa
         Y = pywt.waverec2(Coef, 'db1')
 
-        # Converte a imagem para BGR
+        #garante que o Y possua o mesmo tamanho da imagem texturizada
+        Y = cv2.resize(Y, dsize=(img_text.shape[1], img_text.shape[0]), interpolation=cv2.INTER_AREA)
+
+        #faz o merge dos três canais
         YCrCb = np.zeros((Y.shape[0], Y.shape[1], 3), np.float32)
         YCrCb[:, :, 0] = Y
         YCrCb[:, :, 1] = Cr

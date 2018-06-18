@@ -108,6 +108,7 @@ if __name__ == "__main__":
                 if img is None:
                     print("Imagem %s não encontrada na pasta Imagens" % img_name)
                     exit(1)
+
                 img_text = inc.color_incorporation(img)
                 # Salvando a imagem resultante
                 cv2.imwrite("Texturizadas/%s" % img_name, img_text)

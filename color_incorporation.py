@@ -66,4 +66,7 @@ def color_incorporation(img):
     Coef = cA2, (cH2, cV2, cD2), (cH1, cV1, cD1)
     img_back = pywt.waverec2(Coef, 'db1')
 
+    #garante que a imagem texturizada tenha o mesmo tamanho da original
+    img_back = cv2.resize(img_back, (img.shape[1], img.shape[0]), interpolation=cv2.INTER_AREA)
+
     return img_back
