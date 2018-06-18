@@ -20,6 +20,8 @@ def color_recover(img_text):
         Cr = np.abs(CH1) - np.abs(CD1)
 
         # redimensiona o Cb e o Cr
+        #Cb = cv2.resize(Cb, dsize=(2 * Cb.shape[1], 2 * Cb.shape[0]), interpolation=cv2.INTER_AREA)        
+        #Cr = cv2.resize(Cr, dsize=(2 * Cr.shape[1], 2 * Cr.shape[0]), interpolation=cv2.INTER_AREA)
         Cb = cv2.resize(Cb, dsize=(img_text.shape[1], img_text.shape[0]), interpolation=cv2.INTER_AREA)
         Cr = cv2.resize(Cr, dsize=(img_text.shape[1], img_text.shape[0]), interpolation=cv2.INTER_AREA)
 

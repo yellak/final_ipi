@@ -53,7 +53,7 @@ if __name__ == "__main__":
                 print("Processando para todas as imagens da pasta ", end="")
                 print("Imagens...")
                 print("Isso pode demorar um pouco")
-                printar = rec.NOT_PLOT_PSNR
+                printar = NOT_PLOT_PSNR
                 for fl in glob.glob("Imagens/*.png"):
                     img = cv2.imread('Imagens/%s' % fl[8:])
                     img_text = inc.color_incorporation(img)
