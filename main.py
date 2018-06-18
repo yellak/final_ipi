@@ -9,39 +9,31 @@ import glob
 PLOT_GRAPHICS = 1
 NOT_PLOT_PSNR = 2
 
-''' função pra exibir resultados ? (incompleta)
-def result(img_name):
+def print_PNR(img_origin, img_result):
+    psnr = 0
+    for i in range(0, 3):
+        psnr += cv2.PSNR(img_origin[:, :, i], img_result[:, :, i])
+    psnr /= 3
+    print("O valor Peak-SNR obtido foi:")
+    print("%.3f" % psnr)
 
-        if printar == 1:
-                plt.subplot(121)
-                plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-                plt.title("Imagem original")
-                plt.axis('off')
-                plt.subplot(122)
-                plt.imshow(img_text, cmap='gray')
-                plt.title("Imagem Texturizada")
-                plt.axis('off')
-                plt.show()
-        
-        if printar == PLOT_GRAPHICS:
-                img_rec = cv2.imread('Resultados/%s' % img_name)
-                img_rec = cv2.cvtColor(img_rec, cv2.COLOR_BGR2RGB)
-                plt.imshow(img_rec)
-                plt.title("Imagem Resultante")
-                plt.axis('off')
-                plt.show()
-        
-                img_origin = cv2.imread('Imagens/%s' % img_name)
-                img_result = cv2.imread('Resultados/%s' % img_name)
 
-        if printar != NOT_PLOT_PSNR:
-                psnr = 0
-                for i in range(0, 3):
-                        psnr += cv2.PSNR(img_origin[:, :, i], img_result[:, :, i])
-                        psnr /= 3   
-                        print("O valor Peak-SNR obtido foi:")
-                        print("%.3f" % psnr)
-'''
+def print_(img_origin, img_text, img_result):
+
+    plt.subplot(131)
+    plt.imshow(cv2.cvtColor(img_origin, cv2.COLOR_BGR2RGB))
+    plt.title("Imagem original")
+    plt.axis('off')
+    plt.subplot(132)
+    plt.imshow(img_text, cmap='gray')
+    plt.title("Imagem Texturizada")
+    plt.axis('off')
+    plt.subplot(133)
+    plt.imshow(cv2.cvtColor(img_result, cv2.COLOR_BGR2RGB))
+    plt.title("Imagem Resultante")
+    plt.axis('off')
+    plt.show()
+
 
 if __name__ == "__main__":
         printar = 0
@@ -60,47 +52,21 @@ if __name__ == "__main__":
                     # Salvando a imagem resultante
                     cv2.imwrite("Texturizadas/%s" % fl[8:], img_text)
 
-                    if printar == 1:
-                        plt.subplot(121)
-                        plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-                        plt.title("Imagem original")
-                        plt.axis('off')
-                        plt.subplot(122)
-                        plt.imshow(img_text, cmap='gray')
-                        plt.title("Imagem Texturizada")
-                        plt.axis('off')
-                        plt.show()
-
                     img_rec = rec.color_recover(img_text, img.shape)
 
                     cv2.imwrite('Crominâncias/Y%s' % fl[8:], img_rec[:, :, 0])
                     cv2.imwrite('Crominâncias/Cr%s' % fl[8:], img_rec[:, :, 1])
                     cv2.imwrite('Crominâncias/Cb%s' % fl[8:], img_rec[:, :, 2])
     
-                    #converte a imagem recuperada para BGR
+                    # converte a imagem recuperada para BGR
                     img_rec = inc.Convert_YCC2BGR(img_rec)
                     cv2.imwrite('Resultados/%s' % fl[8:], img_rec)
             
-                    if printar == PLOT_GRAPHICS:
-                            img_rec = cv2.imread('Resultados/%s' % fl[8:])
-                            img_rec = cv2.cvtColor(img_rec, cv2.COLOR_BGR2RGB)
-                            plt.imshow(img_rec)
-                            plt.title("Imagem Resultante")
-                            plt.axis('off')
-                            plt.show()
-            
-                    img_origin = cv2.imread('Imagens/%s' % fl[8:])
-                    img_result = cv2.imread('Resultados/%s' % fl[8:])
-            
-                    if printar != NOT_PLOT_PSNR:
-                            psnr = 0
-                            for i in range(0, 3):
-                                    psnr += cv2.PSNR(img_origin[:, :, i], img_result[:, :, i])
-                            psnr /= 3
-            
-                            print("O valor Peak-SNR obtido foi:")
-                            print("%.3f" % psnr)
-
+                    img_rec = cv2.imread('Resultados/%s' % fl[8:])
+                    if printar == 1:
+                        print_(img, img_text, img_rec)
+                        print_PNR(img, img_rec)
+       
         else:
                 print("Digite o nome da imagem que você deseja transformar:")
                 img_name = input()
@@ -112,18 +78,8 @@ if __name__ == "__main__":
                 img_text = inc.color_incorporation(img)
                 # Salvando a imagem resultante
                 cv2.imwrite("Texturizadas/%s" % img_name, img_text)
-
-                if printar == 1:
-                    plt.subplot(121)
-                    plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-                    plt.title("Imagem original")
-                    plt.axis('off')
-                    plt.subplot(122)
-                    plt.imshow(img_text, cmap='gray')
-                    plt.title("Imagem Texturizada")
-                    plt.axis('off')
-                    plt.show()
-
+               
+                # simulação
                 simulation = -1
                 while(simulation < 0 or simulation > 1):
                         print("\nSimular impressão?")
@@ -154,29 +110,17 @@ if __name__ == "__main__":
                 cv2.imwrite('Crominâncias/Cr%s' % img_name, img_rec[:, :, 1])
                 cv2.imwrite('Crominâncias/Cb%s' % img_name, img_rec[:, :, 2])
 
-                #converte a imagem recuperada para BGR
+                # converte a imagem recuperada para BGR
                 img_rec = inc.Convert_YCC2BGR(img_rec)
+                # img_rec = cv2.cvtColor(img_rec, cv2.COLOR_YCrCb2BGR)
+
                 cv2.imwrite('Resultados/%s' % img_name, img_rec)
-        
-                if printar == PLOT_GRAPHICS:
-                        img_rec = cv2.imread('Resultados/%s' % img_name)
-                        img_rec = cv2.cvtColor(img_rec, cv2.COLOR_BGR2RGB)
-                        plt.imshow(img_rec)
-                        plt.title("Imagem Resultante")
-                        plt.axis('off')
-                        plt.show()
-        
-                img_origin = cv2.imread('Imagens/%s' % img_name)
-                img_result = cv2.imread('Resultados/%s' % img_name)
-        
-                if printar != NOT_PLOT_PSNR:
-                        psnr = 0
-                        for i in range(0, 3):
-                                psnr += cv2.PSNR(img_origin[:, :, i], img_result[:, :, i])
-                        psnr /= 3
-        
-                        print("O valor Peak-SNR obtido foi:")
-                        print("%.3f" % psnr)               
-                #else:
+                img_rec = cv2.imread('Resultados/%s' % img_name)
+                
+                if printar == 1:
+                    print_(img, img_text, img_rec)
+                    print_PNR(img, img_rec)
+                      
+                # else:
                 #        print("\nPor favor, verifique se digitou o nome da")
                 #        print("imagem corretamente e se ela está na pasta Imagens")

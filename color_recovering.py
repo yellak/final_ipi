@@ -6,8 +6,6 @@ import color_incorporation as inc
 # Função que faz todo o procedimento inverso
 def color_recover(img_text, size):
 
-        # img_text = np.float32(img_text)
-
         # Fazendo a transformada Wavelet discreta 2D
         Coef = pywt.wavedec2(img_text, 'db1', level=2)
         CA2, (CH2, CV2, CD2), (CH1, CV1, CD1) = Coef
@@ -20,8 +18,6 @@ def color_recover(img_text, size):
         Cr = np.abs(CH1) - np.abs(CD1)
 
         # redimensiona o Cb e o Cr
-        #Cb = cv2.resize(Cb, dsize=(2 * Cb.shape[1], 2 * Cb.shape[0]), interpolation=cv2.INTER_AREA)        
-        #Cr = cv2.resize(Cr, dsize=(2 * Cr.shape[1], 2 * Cr.shape[0]), interpolation=cv2.INTER_AREA)
         Cb = cv2.resize(Cb, dsize=(size[1], size[0]), interpolation=cv2.INTER_AREA)
         Cr = cv2.resize(Cr, dsize=(size[1], size[0]), interpolation=cv2.INTER_AREA)
 
@@ -34,10 +30,10 @@ def color_recover(img_text, size):
         # recupera o Y a partir da transformada wavelet inversa
         Y = pywt.waverec2(Coef, 'db1')
 
-        #garante que o Y possua o mesmo tamanho da imagem texturizada
+        # garante que o Y possua o mesmo tamanho da imagem texturizada
         Y = cv2.resize(Y, dsize=(size[1], size[0]), interpolation=cv2.INTER_AREA)
 
-        #faz o merge dos três canais
+        # faz o merge dos três canais
         YCrCb = np.zeros((size[0], size[1], 3), np.float32)
         YCrCb[:, :, 0] = Y
         YCrCb[:, :, 1] = Cr

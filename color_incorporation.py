@@ -27,7 +27,7 @@ def plus_minus(img):
 
     plus = np.zeros((height, width), np.float32)
     minus = np.zeros((height, width), np.float32)
-    #separa a matriz em suas partes negativa e positiva
+    # separa a matriz em suas partes negativa e positiva
     minus = (img - np.abs(img)) / 2
     plus = (img + np.abs(img)) / 2
 
@@ -37,18 +37,8 @@ def plus_minus(img):
 # Função que irá criar a imagem texturizada
 def color_incorporation(img):
 
-    '''
-    #redimensionar imagem para valores par de largura e altura antes da transformada wavelet
-    img2 = img
-    if img.shape[0] % 2 == 1:
-        img = cv2.resize(img, (img.shape[1], img.shape[0] + 1), interpolation=cv2.INTER_AREA)
-    if img. shape[1] % 2 == 1:
-        img = cv2.resize(img, (img.shape[1] + 1, img.shape[0]), interpolation=cv2.INTER_AREA)
-    # Convertendo a imagem
-    print(img.shape)
-    '''
-
     ycc = Convert_BGR2YCC(img)
+    # ycc = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
 
     # Fazendo a transformada de Wavelet da imagem em escalas de cinza
     [cA2, (cH2, cV2, cD2), (cH1, cV1, cD1)] = pywt.wavedec2(ycc[:, :, 0], 'db1', level=2)
@@ -75,9 +65,5 @@ def color_incorporation(img):
 
     Coef = cA2, (cH2, cV2, cD2), (cH1, cV1, cD1)
     img_back = pywt.waverec2(Coef, 'db1')
-
-    #redimensionar para o tamanho correto depois da transformada inversa
-    #garante que a imagem texturizada tenha o mesmo tamanho da original
-    #img_back = cv2.resize(img_back, (img.shape[1], img.shape[0]), interpolation=cv2.INTER_AREA)
 
     return img_back
