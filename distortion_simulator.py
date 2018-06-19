@@ -37,12 +37,8 @@ def print_scan(img, K=1):
 
         # aplica um error diffusion
         resized_img = error_diffusion(resized_img, resized_img.shape)
-        # aplica um filtro de média
-        kernel = np.ones((5, 5), np.float32) / (5**2)
-        resized_img = cv2.filter2D(resized_img, -1, kernel)
-        resized_img = np.uint8(resized_img)
+
         # volta a imagem para o tamanho original
         img = cv2.resize(resized_img, (img.shape[1], img.shape[0]), interpolation=cv2.INTER_AREA)
-
 
         return img
