@@ -12,15 +12,6 @@ def Convert_BGR2YCC(img):
     return cv2.merge([Y, Cr, Cb])
 
 
-# Converte uma imagem de YCrCb para BGR
-def Convert_YCC2BGR(img):
-    R = img[:, :, 0] + 1.403 * img[:, :, 1]
-    G = img[:, :, 0] - 0.714 * img[:, :, 1] - 0.344 * img[:, :, 2]
-    B = img[:, :, 0] + 1.773 * img[:, :, 2]
-
-    return cv2.merge([B, G, R])
-
-
 # Função que calcula Cb/Cr-menos e mais
 def plus_minus(img):
     height, width = img.shape
@@ -38,7 +29,7 @@ def plus_minus(img):
 def color_incorporation(img):
 
     ycc = Convert_BGR2YCC(img)
-    # ycc = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
+    #ycc = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
 
     # Fazendo a transformada de Wavelet da imagem em escalas de cinza
     [cA2, (cH2, cV2, cD2), (cH1, cV1, cD1)] = pywt.wavedec2(ycc[:, :, 0], 'db1', level=2)

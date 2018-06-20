@@ -38,4 +38,7 @@ def color_recover(img_text, size):
     YCrCb[:, :, 1] = Cr
     YCrCb[:, :, 2] = Cb
 
-    return YCrCb
+    # Converte a imagem recuperada para BGR
+    img_rec = cv2.cvtColor(YCrCb, cv2.COLOR_YCrCb2BGR)
+
+    return img_rec
